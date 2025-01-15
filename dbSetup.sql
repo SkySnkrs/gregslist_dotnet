@@ -7,6 +7,11 @@ CREATE TABLE IF NOT EXISTS accounts(
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8mb4 COMMENT '';
 
+INSERT INTO 
+accounts(id, name, email, picture)
+VALUES("673fb2660bd9242d71b7587b", "Tristan Martinez", "skysnkrs@gmail.com", "https://lh3.googleusercontent.com/a/ACg8ocJizF8499ujn9mxVrAtVmjxJWGuhSX1VHMs6oEOq_BjHpY6_dU=s96-c");
+SELECT * FROM accounts;
+
 CREATE TABLE cars(
   -- make sure the first column in your table is the id
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -68,14 +73,16 @@ CREATE TABLE houses(
  description VARCHAR(255) NOT NULL,
  price INT NOT NULL,
 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
-updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update'
+updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  creator_id VARCHAR(255) NOT NULL,
+  FOREIGN KEY(creator_id) REFERENCES accounts(id) ON DELETE CASCADE
 );
 
 DROP TABLE houses;
 
 INSERT INTO 
-houses(sqft, bedrooms, bathrooms, imgUrl, description, price)
-VALUES(2500, 3, 2, "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "This is a very nice home with a cool bathroom", 250000);
+houses(sqft, bedrooms, bathrooms, imgUrl, description, price, creator_id)
+VALUES(2500, 3, 2, "https://plus.unsplash.com/premium_photo-1689609950112-d66095626efb?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "This is a very nice home with a cool bathroom", 250000, "673fb2660bd9242d71b7587b");
 
 
 SELECT * FROM houses;

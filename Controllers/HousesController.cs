@@ -1,3 +1,6 @@
+using System.Runtime.Serialization;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace gregslist_dotnet.Controllers;
 
 
@@ -16,5 +19,49 @@ public class HousesController : ControllerBase
     }
 
 
+    [HttpGet]
 
+    public ActionResult<List<House>> GetAllHouses()
+    {
+        try
+        {
+            List<House> houses = _housesService.GetAllHouses();
+            return Ok(houses);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
+
+    [HttpGet("{houseId}")]
+    public ActionResult<House> GetHouseById(int houseId)
+    {
+        try
+        {
+            House house = _housesService.GetHouseById(houseId);
+            return Ok(house);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<House>> CreateHouse([FromBody] House houseData)
+    {
+        try
+        {
+            Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            houseData.CreatorId = userInfo.Id;
+            House house = _housesService.CreateHouse(houseData);
+            return Ok(house);
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
 }
