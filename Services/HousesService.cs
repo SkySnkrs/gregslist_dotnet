@@ -1,5 +1,6 @@
 
 
+
 namespace gregslist_dotnet.Services;
 
 
@@ -15,6 +16,18 @@ public class HousesService
     {
         House house = _repository.CreateHouse(houseData);
         return house;
+    }
+
+    internal string DeleteHouse(int houseId, string userId)
+    {
+
+        House house = GetHouseById(houseId);
+
+        if (house.CreatorId != userId) throw new Exception("THIS IS NOT YOUR CAR, BUD");
+
+        _repository.DeleteHouse(houseId);
+
+        return $"Deleted The {house.sqft} SQFT House, That Costed ${house.price}!"; ;
     }
 
     internal List<House> GetAllHouses()

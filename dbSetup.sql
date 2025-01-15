@@ -69,7 +69,7 @@ CREATE TABLE houses(
  sqft INT NOT NULL,
  bedrooms INT NOT NULL,
  bathrooms DOUBLE NOT NULL,
- imgUrl VARCHAR(255) NOT NULL,
+ imgUrl VARCHAR(255) NULL,
  description VARCHAR(255) NOT NULL,
  price INT NOT NULL,
 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',

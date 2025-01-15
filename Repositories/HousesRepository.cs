@@ -1,6 +1,7 @@
 
 
 
+
 namespace gregslist_dotnet.Repositories;
 
 public class HousesRepository
@@ -53,8 +54,8 @@ public class HousesRepository
     {
         string sql = @" 
         INSERT INTO 
-        houses(sqft, bedrooms, bathrooms, imgUrl, description, price, creator_id)
-        VALUES(@Sqft, @Bedrooms, @Bathrooms, @ImgUrl, @Description, @Price, @CreatorId);
+        houses(sqft, bedrooms, bathrooms, description, price, creator_id)
+        VALUES(@Sqft, @Bedrooms, @Bathrooms, @Description, @Price, @CreatorId);
 
          SELECT
         houses.*,
@@ -70,5 +71,14 @@ public class HousesRepository
         }, houseData).SingleOrDefault();
 
         return house;
+    }
+
+    internal void DeleteHouse(int houseId)
+    {
+        string sql = "DELETE FROM houses WHERE id = @id LIMIT 1;";
+        int rowsAffected = _db.Execute(sql, new { id = houseId });
+
+        if (rowsAffected == 0) throw new Exception("DELETE WAS UNSUCCESSFUL");
+        if (rowsAffected > 1) throw new Exception("DELETE WAS TOO SUCCESSFUL");
     }
 }
